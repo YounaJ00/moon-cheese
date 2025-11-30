@@ -35,7 +35,7 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     setIsLoadingExchangeRate(true);
     setExchangeRateError(null);
     try {
-      const response = await http.get<ExchangeRateResponse>('api/exchange-rate');
+      const response = await http.get<ExchangeRateResponse>('/api/exchange-rate');
       setExchangeRate(response.exchangeRate);
     } catch (error) {
       setExchangeRateError(error instanceof Error ? error : new Error('Failed to load exchanhe rate'));

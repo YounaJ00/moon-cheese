@@ -1,4 +1,4 @@
-import { GRADE_POINTS, type GradeType } from '@/server/data';
+import type { GradeType } from '@/server/data';
 import type { ExchangeRate } from '@/types/currency';
 
 export type GradeInfo = {
@@ -9,25 +9,40 @@ export type GradeInfo = {
   progressPercentage: number;
 };
 
+export type GradePoint = {
+  type: GradeType;
+  minPoint: number;
+};
+
 const GRADE_ORDER: GradeType[] = ['EXPLORER', 'PILOT', 'COMMANDER'];
 
 export const POINT_EARNING_RATE = 0.1 as const;
 
 // 등급 계산 로직
-export function getCurrentGrade(currentPoint: number): GradeType {
-  if (currentPoint >= GRADE_POINTS.COMMANDER) {
-    return 'COMMANDER';
+export function getCurrentGrade(currentPoint: number, gradePointList: GradePoint[]): GradeType {
+  let currentGrade: GradeType = 'EXPLORER';
+  let maxMinPoint = -Infinity;
+
+  for (const grade of gradePointList) {
+    if (currentPoint >= grade.minPoint && grade.minPoint >= maxMinPoint) {
+      currentGrade = grade.type;
+      maxMinPoint = grade.minPoint;
+    }
   }
-  if (currentPoint >= GRADE_POINTS.PILOT) {
-    return 'PILOT';
-  }
-  return 'EXPLORER';
+  return currentGrade;
 }
 
-export function getNextGrade(currentGrade: GradeType): GradeType | null {
+export function getNextGrade(currentGrade: GradeType, gradePointList: GradePoint[]): GradeType | null {
   const currentIndex = GRADE_ORDER.indexOf(currentGrade);
-  const nextIndex = currentIndex + 1;
-  return nextIndex < GRADE_ORDER.length ? GRADE_ORDER[nextIndex] : null;
+
+  for (let i = currentIndex + 1; i < GRADE_ORDER.length; i++) {
+    const nextType = GRADE_ORDER[i];
+    const exists = gradePointList.some(gradePoint => gradePoint.type === nextType);
+    if (exists) {
+      return nextType;
+    }
+  }
+  return null;
 }
 
 export function getProgressRatio(
@@ -43,9 +58,9 @@ export function getProgressRatio(
   return Math.min(Math.max(ratio, 0), 1);
 }
 
-export function calculateGradeInfo(currentPoint: number): GradeInfo {
-  const currentGrade = getCurrentGrade(currentPoint);
-  const nextGrade = getNextGrade(currentGrade);
+export function calculateGradeInfo(currentPoint: number, gradePointList: GradePoint[]): GradeInfo {
+  const currentGrade = getCurrentGrade(currentPoint, gradePointList);
+  const nextGrade = getNextGrade(currentGrade, gradePointList);
 
   if (!nextGrade) {
     return {
@@ -57,8 +72,8 @@ export function calculateGradeInfo(currentPoint: number): GradeInfo {
     };
   }
 
-  const currentGradeMinPoint = GRADE_POINTS[currentGrade];
-  const nextGradeMinPoint = GRADE_POINTS[nextGrade];
+  const currentGradeMinPoint = gradePointList.find(gradePoint => gradePoint.type === currentGrade)?.minPoint ?? 0;
+  const nextGradeMinPoint = gradePointList.find(gradePoint => gradePoint.type === nextGrade)?.minPoint ?? 0;
 
   const ratio = getProgressRatio(currentPoint, currentGradeMinPoint, nextGradeMinPoint);
 

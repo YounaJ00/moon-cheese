@@ -28,7 +28,11 @@ function CurrentLevelSection() {
     }
   }
   if (error) {
-    return <ErrorSection onRetry={loadGradeData} />;
+    return (
+      <styled.section css={{ px: 5, py: 4 }}>
+        <ErrorSection onRetry={loadGradeData} />
+      </styled.section>
+    );
   }
   if (isLoading || !gradeInfo) {
     return null;
@@ -49,13 +53,13 @@ function CurrentLevelSection() {
             <Box textAlign="left">
               <Text variant="C1_Bold">현재 포인트</Text>
               <Text variant="C2_Regular" color="neutral.03_gray">
-                {gradeInfo.currentPoint}p
+                {gradeInfo.currentPoint}P
               </Text>
             </Box>
             <Box textAlign="right">
               <Text variant="C1_Bold">다음 등급까지</Text>
               <Text variant="C2_Regular" color="neutral.03_gray">
-                {gradeInfo.pointsToNextGrade}p
+                {gradeInfo.pointsToNextGrade}P
               </Text>
             </Box>
           </Flex>

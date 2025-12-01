@@ -1,4 +1,5 @@
 import { GRADE_POINTS, type GradeType } from '@/server/data';
+import type { ExchangeRate } from '@/types/currency';
 
 export type GradeInfo = {
   currentGrade: GradeType;
@@ -9,6 +10,8 @@ export type GradeInfo = {
 };
 
 const GRADE_ORDER: GradeType[] = ['EXPLORER', 'PILOT', 'COMMANDER'];
+
+export const POINT_EARNING_RATE = 0.1 as const;
 
 export function calculateGradeInfo(currentPoint: number): GradeInfo {
   const currentGrade = GradeUtils.getCurrentGrade(currentPoint);
@@ -61,3 +64,21 @@ export const GradeUtils = {
     return Math.min(Math.max(ratio, 0), 1);
   },
 };
+
+export function earnedPointsFromUSD(amountInUSD: number): number {
+  if (amountInUSD <= 0) {
+    return 0;
+  }
+  return amountInUSD * POINT_EARNING_RATE;
+}
+
+export function earnedPointsFromKRW(amountInKRW: number, exchangeRate: ExchangeRate): number {
+  if (amountInKRW <= 0) {
+    return 0;
+  }
+  if (!exchangeRate?.KRW) {
+    return 0;
+  }
+  const amountInUSD = amountInKRW / exchangeRate.KRW;
+  return earnedPointsFromUSD(amountInUSD);
+}

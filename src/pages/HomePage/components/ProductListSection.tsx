@@ -52,7 +52,7 @@ function ProductListSection() {
             <ProductItem.MetaLeft>
               <ProductItem.Rating rating={3} />
               <ProductItem.Price>
-                <Price usd={5.0} />
+                <Price usd={11.33} />
               </ProductItem.Price>
             </ProductItem.MetaLeft>
             <ProductItem.FreeTag type="gluten" />

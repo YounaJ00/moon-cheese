@@ -53,6 +53,7 @@ function CheckoutSection() {
 
           <HStack justify="space-between">
             <Text variant="H2_Bold">총 금액</Text>
+            {/* TODO: 가격 합계 */}
             <Text variant="H2_Bold">$30.59</Text>
           </HStack>
         </Stack>

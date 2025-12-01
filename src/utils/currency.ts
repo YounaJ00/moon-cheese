@@ -23,7 +23,7 @@ function formatUSDPrice(price: number): string {
 
 function formatKRWPrice(priceInUSD: number, exchangeRate: ExchangeRate | null): string {
   if (!exchangeRate) {
-    return '환율 오류';
+    return '₩0';
   }
   const priceInKRW = Math.round(priceInUSD * exchangeRate.KRW);
   return `${priceInKRW.toLocaleString('ko-KR', {

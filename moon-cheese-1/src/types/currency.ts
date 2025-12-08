@@ -8,3 +8,4 @@ export type ExchangeRate = {
 export type ExchangeRateResponse = {
   exchangeRate: ExchangeRate;
 };
+ 

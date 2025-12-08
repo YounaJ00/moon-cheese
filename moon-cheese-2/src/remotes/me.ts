@@ -1,4 +1,4 @@
-import type { Grade } from '@/type';
+import type { Grade } from '@/types/product';
 import { http } from '@/utils/http';
 
 interface MeResponse {

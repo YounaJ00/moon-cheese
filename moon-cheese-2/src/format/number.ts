@@ -1,4 +1,4 @@
-import type { Currency } from '@/type';
+import type { Currency } from '@/types/product';
 
 export const formatPriceByCurrency = (price: number, currency: Currency, rate: Record<Currency, number>) => {
   const value = currency === 'USD' ? price : Math.round(price * rate.KRW);

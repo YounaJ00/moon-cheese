@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import type { Currency } from '@/type';
+import type { Currency } from '@/types/product';
 import { getExchangeRateQueryOptions } from '@/remotes/queries/exchange';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import type { ExchangeRate } from '@/remotes/exchange';

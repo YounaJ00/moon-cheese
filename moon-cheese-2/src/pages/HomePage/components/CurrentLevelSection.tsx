@@ -6,7 +6,7 @@ import { Box, Flex, styled } from 'styled-system/jsx';
 import ErrorSection from '@/components/ErrorSection';
 import { getGradeQueryOptions } from '@/remotes/queries/grade';
 import { getMeQueryOptions } from '@/remotes/queries/me';
-import type { Grade, GradePoint } from '@/type';
+import type { Grade, GradePoint } from '@/types/product';
 import { ProgressBar, Spacing, Text } from '@/ui-lib';
 
 function getNextGradePoint(currentPoint: number, gradePointList: GradePoint[]) {

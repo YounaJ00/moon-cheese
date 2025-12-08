@@ -1,4 +1,4 @@
-import type { Product } from '@/type';
+import type { Product } from '@/types/product';
 import { http } from '@/utils/http';
 
 interface GetRecentProductListResponse {

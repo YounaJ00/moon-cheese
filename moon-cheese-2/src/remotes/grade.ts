@@ -1,4 +1,4 @@
-import type { GradePoint } from '@/type';
+import type { GradePoint } from '@/types/product';
 import { http } from '@/utils/http';
 
 interface GetGradePoint {
